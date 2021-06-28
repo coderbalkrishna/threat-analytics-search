@@ -2,7 +2,7 @@ const path = require("path");
 const bomPlugin = require("webpack-utf8-bom");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require('dotenv-webpack');
+const Dotenv = require("dotenv-webpack");
 
 module.exports = (env) => ({
   entry: {
@@ -10,6 +10,7 @@ module.exports = (env) => ({
     "js/migration": "./src/js/migration.js",
     "js/options": "./src/js/options.js",
     "js/postHandler": "./src/js/postHandler.js",
+    "js/popup": "./src/js/popup.js",
   },
   output: {
     path: path.resolve(__dirname, "dist"),
@@ -45,6 +46,11 @@ module.exports = (env) => ({
       filename: "migration.html",
       chunks: ["js/migration"],
     }),
+    new HtmlWebpackPlugin({
+      template: "./src/popup.html",
+      filename: "popup.html",
+      chunks: ["js/popup"],
+    }),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -56,6 +62,7 @@ module.exports = (env) => ({
               "**/migration.html",
               "**/options.html",
               "**/postHandler.html",
+              "**/popup.html",
             ],
           },
         },
@@ -74,7 +81,7 @@ module.exports = (env) => ({
     splitChunks: {
       chunks(chunk) {
         // Dont split background file, otherwise won't be loaded completely by Chrome.
-        return chunk.name !== 'background';
+        return chunk.name !== "background";
       },
     },
   },

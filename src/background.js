@@ -19,6 +19,7 @@ chrome.runtime.onInstalled.addListener(async function (details) {
   var previous = _.get(details, "previousVersion");
   var properties = { "Current Version": chrome.runtime.getManifest().version };
 
+  chrome.runtime.sendMessage("mixpanel-init");
   //Analytics.init();
   //Analytics.register(properties);
 
